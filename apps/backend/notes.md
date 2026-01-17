@@ -1,4 +1,4 @@
-# NOTES
+# NOTES on development process!
 ## to run,
 yarn dev
 
@@ -107,4 +107,52 @@ export async function registerBlogHandler(request: FastifyRequest, reply: Fastif
 '''
 Then, we import this in our blog.route.js to hook everything up!
 
-Now we want to create a blog post, but we don't have any database or anything set up yet. So, let's change gear, and set up this db so that we can start making blogs.
+Now we want to create a blog post, but we don't have any database or anything set up yet. So, let's change gear, and set up this db so that we can start making blogs. 
+
+I ran this command to start the postgresql prisma instance: npx prisma init --datasource-provider postgresql
+
+Then, I updated the schema in schema.prisma. There are notes on the datatypes in there. Then, in order to migrate the schema
+to the database, I had to run npx prisma migrate dev --name init (init is the name of our migration in this case)
+
+This originally failed since, when I switched to a different node.js version, I didn't have dotenv installed locally. So, if you are running
+into the same problem, try running yarn add dotenv. Same problem with prisma, had to run yarn add prisma --dev. After this, it should hopefully start working. But unfortunately, because Im me, this also did not work, because my prisma.config.ts couldn't figure out what process was in
+ url: process.env["DATABASE_URL"]. I tried installing @types/node  (yarn add --dev @types/node), this didn't do anything. Then, I realized
+ that in my tsconfig, I set the "rootDir": "./src". This made it so that the prisma.config was blind to it. To fix it, I commented out rootDir. 
+ This made this error go away, but I was still facing the problem of my database not running at localhost:5432. That's when I remembered that when I was trying to free up space on my laptop a few months ago, I had deleted postgresql (face palm). So I had to go to the downloader and redownload it (and when I did this, my computer bluescreened right at the end of the install [double face palm]). Yeah...I wasted way too much time on this!Go through the download stuff, and then add ur password. Don't put an @ in the password, I made this mistake and had to go into the
+ PSQL terminal to change my password (the command is ALTER USER postgres WITH PASSWORD 'whatever_password_to_change_to'; if you're curious). After this, when you run ALTER USER postgres WITH PASSWORD 'new_password' it should say "your database is now in sync with your schema". You can verify for a sanity check by going into pgAdmin -> databases -> ur database -> schemas -> public -> tables -> ur table name -> columns. You should have also gotten a folder in your prisma folder called migrations, with files like migrations.sql. 
+
+ Next, create a utils folder in src, and in utils make a file prisma.ts, this is to create the prisma connection. prisma.ts exports a prisma instance we can use throughout our application. 
+
+ Now, go back to blog.service.ts, we're going to create our createBlog function!
+
+Turns out, since my tutorial was 4 years old, I accidentally installed Prisma 7. In late 2025, Prisma removed their "Rust Engine" (the binary). Because Prisma 7 is lean, I had to install the PostgreSQL driver and the Prisma adapter separately.
+
+ yarn add @prisma/adapter-pg pg
+ yarn add -D @types/pg
+
+ Now that the connection is fixed, I can finally run the generation and migration: 
+
+npx prisma generate
+
+npx prisma migrate dev --name init (this didn't do anything, but I did it just to be safe)
+
+Next, it's time to work on fleshing out blog.service.ts. But to make sure that the user input is safe, we wnat to define our schema in blog.schema.ts. I wrote down some notes in there on what certain things are. Also, I found that I could no longer use fastify-zod for buildJsonSchemas, so instead i had to switch over to fastify-type-provider-zod. If you're following along, run this command:
+
+yarn add fastify-type-provider-zod
+
+Now, we write our services in blog.service.ts. We want to be able to create and post blogs. So, I wrote the createBlog and getBlogs services.I might go back and make the option to delete blogs later. 
+
+Now, lets make our controllers to use these services in blog.controllers.ts. There will be some notes in this file on what I did.
+
+After creating createBlogHandler, we need to hook the route up in blog.route.js. There will be some notes on what I did in this file too.
+
+After this, test out the endpoint with postman. This is what I fed in: 
+body: {
+    "author": "Marlea",
+    "title": "Blog Post #1",
+    "tags": "typescript, backend, learning",
+    "content": "This is a test post to see if my server actually works lol"
+}
+post: {{host}}/api/blogs (where host is my blog environment with localhost:3xxx already fleshed out)
+
+At first i got a 500 error code because my databse wasn't connecting with prisma. To fix this, I added import 'dotenv/config'; to the top of my prisma.ts, because it wasn't finding my dotenv file.

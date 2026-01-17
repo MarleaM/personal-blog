@@ -1,7 +1,14 @@
+//this file sets up the engine (the Zod compilers).
+
 import Fastify from "fastify";
 import blogRoutes from "./modules/blog/blog.route.js";
-
+import { validatorCompiler, serializerCompiler } from "fastify-type-provider-zod";
+//import {createBlogSchema, blogsResponseSchema} from "./modules/blog/blog.schema.js";
 const server = Fastify();
+
+//set the compilers (this is the global setup)
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 server.get('/healthcheck', async function(/*request, response [these are not used]*/){
     return {status: "OK"}; //return an object w/ the status ok (200)
