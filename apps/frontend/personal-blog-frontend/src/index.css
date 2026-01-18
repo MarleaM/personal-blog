@@ -1,0 +1,28 @@
+.navbar-outer{
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #975454;
+}
+
+.navbar-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;        
+  padding: 10px;      
+}
+
+.nav-item {
+  display: flex;
+  height: 15vw;       /* makes the height is now 15% of the window width */
+  min-height: 80px;   
+  max-height: 200px;  
+}
+
+.nav-image {
+  height: 100%;       /* b/c we set nav item to be 15vw his fills the 15vw container height */
+  width: auto;        /* keeps the image proportions to what i made em */
+  display: block;
+  max-width: 100%;    /* o prevent horizontal overflow */
+}
+
