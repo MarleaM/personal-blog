@@ -8,11 +8,11 @@ const Header = () => {
             <div className = "navbar-inner">
                 <div className="logo-wrapper">
                     <Link to="/" className='nav-item'>
-                        <img src={blog_logo} alt="blog logo" className="nav-image" />
+                        <img src={blog_logo} alt="blog logo" className="nav-image-logo" />
                     </Link>
                 </div>
                 <div className="nav-item">
-                    <img src={blog_comic} alt="blog comic" className="nav-image" />
+                    <img src={blog_comic} alt="blog comic" className="nav-image-comic" />
                 </div>
             </div>
 

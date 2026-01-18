@@ -3,12 +3,18 @@
 import Fastify from "fastify";
 import blogRoutes from "./modules/blog/blog.route.js";
 import { validatorCompiler, serializerCompiler } from "fastify-type-provider-zod";
+import cors from '@fastify/cors'
 //import {createBlogSchema, blogsResponseSchema} from "./modules/blog/blog.schema.js";
 const server = Fastify();
 
 //set the compilers (this is the global setup)
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
+
+server.register(cors, { 
+  origin: "http://localhost:5173", //react frontend is running on 5173
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+});
 
 server.get('/healthcheck', async function(/*request, response [these are not used]*/){
     return {status: "OK"}; //return an object w/ the status ok (200)

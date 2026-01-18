@@ -156,3 +156,26 @@ body: {
 post: {{host}}/api/blogs (where host is my blog environment with localhost:3xxx already fleshed out)
 
 At first i got a 500 error code because my databse wasn't connecting with prisma. To fix this, I added import 'dotenv/config'; to the top of my prisma.ts, because it wasn't finding my dotenv file.
+
+The create blog request should now be good! now it's time to repeat the process, but this time for get-ing the blog posts.
+aka, add this to controller, 
+export async function getBlogsHandler(){
+    const blogs = await getBlogs();
+    return blogs;
+}
+then this to the routes:
+    server.get('/', {
+      schema:{
+        response: {
+          200: blogsResponseSchema
+        }
+      }
+    }, getBlogsHandler);
+
+
+### typescript cheat sheet syntax
+Symbol,Name,Meaning in my Project
+/:id,Path Parameter,"A ""wildcard"" in the URL that becomes a variable."
+[ ],Array,A collection of multiple blog posts.
+{ },Object,A single blog post or a set of configuration options.
+< >,Generics,"A TypeScript tool to define the ""type"" of data inside a class or function."

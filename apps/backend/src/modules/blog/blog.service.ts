@@ -15,7 +15,7 @@ export async function createBlog(input: CreateBlogInput) { //our createbloginput
     return blog;
 }
 
-//grabe multiple blog posts
+//grabemultiple blog posts
 export function getBlogs(){
     return prisma.blog.findMany({
         select:{
@@ -24,9 +24,17 @@ export function getBlogs(){
             author: true,   
             createdAt: true, 
             tags: true,     
+            backgroundPicUrl: true,
             // usually u don't return the FULL content in a list
             // b/c it makes the API response huge
             content: false,
         }
     })
+}
+
+//grab just one blog post
+export async function getBlogById(id: number) {
+    return await prisma.blog.findUnique({
+        where: {id}
+    });
 }

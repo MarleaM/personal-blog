@@ -1,8 +1,8 @@
 // this file apples the rules to specific URLs.
 
 import type { FastifyInstance } from "fastify";
-import { createBlogSchema, blogResponseSchema } from './blog.schema.js';
-import {createBlogHandler} from './blog.controller.js';
+import { createBlogSchema, blogResponseSchema, blogsResponseSchema } from './blog.schema.js';
+import {createBlogHandler, getBlogsHandler, getBlogByIdHandler} from './blog.controller.js';
 
 async function blogRoutes(server: FastifyInstance){ //server: FastifyInstance just means that the server will be an instance of fastify
     //this is an endpoint to create a blog post
@@ -29,6 +29,22 @@ async function blogRoutes(server: FastifyInstance){ //server: FastifyInstance ju
             }
         }
     },  createBlogHandler);
+
+    server.get('/', {
+      schema:{
+        response: {
+          200: blogsResponseSchema
+        }
+      }
+    }, getBlogsHandler);
+
+    server.get( '/:id', { //note: the colon signals to fastify thatthe next part of the url is a variable
+      schema: {
+        response: {
+          200: blogResponseSchema
+        }
+      }
+    }, getBlogByIdHandler);
 }
 
 export default blogRoutes;

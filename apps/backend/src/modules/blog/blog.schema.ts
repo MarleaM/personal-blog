@@ -3,7 +3,8 @@
 import {z} from 'zod'; //zod handles the safety of the User Input before it ever touches the logic
 //import { buildJsonSchemas } from 'fastify-zod'; no longer needed because it doesn't work with my versions
 
-/* work for the content of the blog post */
+// work for the content of the blog post 
+
 const blogInput = {
     author: z.string(),
     title: z.string(),
@@ -20,6 +21,10 @@ const blogGenerated = {
     updatedAt: z.coerce.string()
 }
 
+const blogSummarySchema = z.object({
+    ...blogInput,
+    ...blogGenerated
+}).omit({content: true}) //b/c we don't want to send back the entire content for list view
 
 /************************************************************************************************************ */
 const createBlogSchema = z.object({ //these are properties that we expect the user to pass in for us
@@ -32,7 +37,7 @@ const blogResponseSchema = z.object({
 });
 
 
-const blogsResponseSchema = z.array(blogResponseSchema); //this is for returning an array of blogResponseSchemas
+const blogsResponseSchema = z.array(blogSummarySchema); //this is for returning an array of blogResponseSchemas
 
 
 // export the VALUES (the Zod objects) 
