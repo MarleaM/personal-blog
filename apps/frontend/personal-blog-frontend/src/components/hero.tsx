@@ -6,11 +6,11 @@ const Hero = () => {
             <div className = "hero-outer">
                 <div className = "hero-left">
                     <h1>
-                    <span className="text-muted">Hello! I'm Marlea. Welcome to my</span> blog<span className="text-muted">.</span> 
+                    <span className="text-muted">Hello! I'm Marlea, welcome to my</span> blog<span className="text-muted">.</span> 
                     <br /><br />
-                    <span className="text-muted">I'm currently</span> reviewing food<span className="text-muted">, </span> 
+                    <span className="text-muted">I like </span> reviewing food<span className="text-muted">, </span> 
                     yapping <span className="text-muted">about what I've learned in</span> class<span className="text-muted">, 
-                    and documenting my days at</span> work<span className="text-muted">.</span> 🐔🌷
+                    and documenting my days at</span> work<span className="text-muted">.</span> 🐔🌿
                     </h1>
 
                 </div>

@@ -1,10 +1,6 @@
-import multer from 'multer';
+import multer from 'fastify-multer';
 
-const storage = multer.diskStorage({
-    filename: function (req, file, cb){
-        cb(null, file.originalname);
-    }
-})
+const storage = multer.memoryStorage(); //so that we aren't actually storing it, it will be discarded auto b/c it live in ram
 
 const upload = multer({storage: storage});
 

@@ -175,7 +175,7 @@ then this to the routes:
 
 I also want to add the functionality for getting images. to do this im using the cloudinary api, and multer foer help with short term image storage on disk.
 yarn add cloudinary
-yarn add multer (if that doesn't work try yarn add --dev @types/multer)
+yarn add fastify-multer (if that doesn't work try yarn add --dev @types/multer)
 
 
 

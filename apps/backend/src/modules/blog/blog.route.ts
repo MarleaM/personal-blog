@@ -3,6 +3,8 @@
 import type { FastifyInstance } from "fastify";
 import { createBlogSchema, blogResponseSchema, blogsResponseSchema } from './blog.schema.js';
 import {createBlogHandler, getBlogsHandler, getBlogByIdHandler} from './blog.controller.js';
+import upload from '../../middleware/multer.js'
+import { RouteHandlerMethod } from 'fastify';
 
 async function blogRoutes(server: FastifyInstance){ //server: FastifyInstance just means that the server will be an instance of fastify
     //this is an endpoint to create a blog post
@@ -22,13 +24,14 @@ async function blogRoutes(server: FastifyInstance){ //server: FastifyInstance ju
     //is matched and the data is validated
     //it takes the request and reply objects
     server.post('/',{
-        schema:{
-            body: createBlogSchema,
-            response: {
-                201: blogResponseSchema // tells Fastify how to format the sccuess reply
-            }
-        }
-    },  createBlogHandler);
+        preHandler: upload.single('backgroundPic'),
+        // schema:{
+        //     body: createBlogSchema,
+        //     response: {
+        //         201: blogResponseSchema // tells Fastify how to format the sccuess reply
+        //     }
+        //}
+    },  createBlogHandler as RouteHandlerMethod);
 
     server.get('/', {
       schema:{

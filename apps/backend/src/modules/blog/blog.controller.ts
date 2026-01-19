@@ -1,17 +1,31 @@
 import type { FastifyRegister, FastifyReply, FastifyRequest } from "fastify";
 import { createBlog, getBlogs, getBlogById } from "./blog.service.js";
 import { CreateBlogInput } from "./blog.schema.js";
-//this is a function that we need to export
+import { uploadToCloudinary } from '../../utils/cloudinary.js';
 //so that app.ts can import the function. 
-//This is all about seperation of concerns in 
-//our backend.
+//this file helps with seperation of concerns in 
+//the backend, it does all of the formatting before touching our service cause 
+// we need to process the image upload
 export async function createBlogHandler(
     request: FastifyRequest<{ Body: CreateBlogInput }>, 
     reply: FastifyReply
 ) {
     try {
-        //pass the body directly
-        const blog = await createBlog(request.body);
+        const reqWithFile = request as typeof request & { file: any }; //hacky way to get this crap working, this casts the request tp include the multer file property
+        const file = reqWithFile.file;
+        // console.log("Body:", request.body); 
+        // console.log("File:", reqWithFile.file); 
+        if (!file) {
+            return reply.code(400).send({ message: "background image is required" });
+        }
+        const imageUrl = await uploadToCloudinary(file.buffer);
+
+        const blogData = {
+            ...request.body, // author, title, tags, content
+            backgroundPicUrl: imageUrl // overwrite the backgroundPic's null/empty value with the real link!!!!!! RAHHHHHHHHHH
+        };
+        //pass the blog information that has been completed
+        const blog = await createBlog(blogData);
         //send a 201 (created) status code
         return reply.code(201).send(blog);
     } catch (e) {

@@ -4,19 +4,26 @@ import Fastify from "fastify";
 import blogRoutes from "./modules/blog/blog.route.js";
 import { validatorCompiler, serializerCompiler } from "fastify-type-provider-zod";
 import cors from '@fastify/cors'
-import cloudinary from "./utils/cloudinary.js";
+import multer from 'fastify-multer';
+// import cloudinary from "./utils/cloudinary.js";
 //import {createBlogSchema, blogsResponseSchema} from "./modules/blog/blog.schema.js";
 const server = Fastify();
-const url = cloudinary.url('swat_ugn2qv');
-console.log(url);
+// const url = cloudinary.url('swat_ugn2qv');
+// console.log(url);
 //set the compilers (this is the global setup)
-server.setValidatorCompiler(validatorCompiler);
-server.setSerializerCompiler(serializerCompiler);
-
+server.register(multer.contentParser); //this doesn't work for some reason
+// this is a temp. fix cause this brute forces tells fastify to let meutpart/form-data through
+///need to fix this later
+server.addContentTypeParser('multipart/form-data', (request, payload, done) => {
+  done(null);
+});
 server.register(cors, { 
   origin: "http://localhost:5173", //react frontend is running on 5173
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 });
+
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 server.get('/healthcheck', async function(/*request, response [these are not used]*/){
     return {status: "OK"}; //return an object w/ the status ok (200)
