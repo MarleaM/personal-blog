@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. GLOBAL SETTINGS & VARIABLES
+   globals
    ========================================================================== */
 :root {
   --primary-green-color: #344534;
@@ -26,7 +26,7 @@ body {
 }
 
 /* ==========================================================================
-   2. LAYOUT CONTAINERS (SHARED)
+   layout containers
    ========================================================================== */
 .container {
   max-width: var(--container-width);
@@ -47,12 +47,13 @@ body {
 }
 
 /* ==========================================================================
-   3. NAVIGATION BAR
+  nav bar
    ========================================================================== */
 .navbar-outer {
   max-width: var(--container-width);
   margin: auto;
-  border-bottom: 1px solid #975454;
+  border-bottom: 1px solid #dbdbdb;
+  padding-bottom: 10px;
 }
 
 .navbar-inner {
@@ -77,7 +78,7 @@ body {
 }
 
 /* ==========================================================================
-   3. hero
+   hero
    ========================================================================== */
 
 .hero-outer{
@@ -109,7 +110,7 @@ body {
 
 
 /* ==========================================================================
-   4. BLOG CARD COMPONENT
+  normal blog card component
    ========================================================================== */
 .card {
   background-color: var(--testing-color);
@@ -139,10 +140,13 @@ body {
 .blog {
   margin-bottom: 3em;
 }
-
+.blog > a {
+    text-decoration: none; 
+    color: inherit;
+}
 
 /* ==========================================================================
-   4. BLOG FEAUTRED CARD COMPONENT
+  featured blog componetnt
    ========================================================================== */
 
 .featured-item {
@@ -168,10 +172,47 @@ body {
 .card:hover .img-featured {
   transform: scale(1.1);
 }
+/* ==========================================================================
+   blog post
+   ========================================================================== */
+.blog-post-inner {
+  display: flex;
+  width: 100%;   
+  height: 350px;
+  padding-top: 20px; 
+  overflow: hidden;  
+  border-radius: 8px;     
+}
+.blog-banner-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 2px solid #dbdbdb; 
+
+}
+
+.blog-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #dbdbdb;
+    padding-bottom: 1rem;
+}
+
+.blog-meta {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between; 
+}
+
+.blog-content-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    white-space: pre-wrap; 
+    margin-bottom: 5rem;
+}
 
 
 /* ==========================================================================
-   5. TYPOGRAPHY & TEXT UTILITIES
+   5. TYPOGRAPsHY & TEXT UTILITIES
    ========================================================================== */
 
    
@@ -209,3 +250,44 @@ h2, h3 {
 .display-1 { font-size: 22px; }
 .display-2 { font-size: 16px; }
 .display-3 { font-size: 14px; }
+
+
+/* I SAMPLED THIS BUITTON FROM ONLINE*/
+
+/* CSS */
+.button-74 {
+  margin-top: 10px;
+  background-color: var(--bg-light);
+  border: 2px solid var(--primary-green-color);
+  border-radius: 10%;
+  box-shadow: var(--primary-green-color) 4px 4px 0 0;
+  color: var(--primary-green-color);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: normal;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-74:hover {
+  background-color: #fff;
+}
+
+.button-74:active {
+  box-shadow: var(--primary-green-color) 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .button-74 {
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}

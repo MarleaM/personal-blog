@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from 'react'
-import BlogCard from './blogCard'
-import BlogFeatured from './blogFeatured'
-
+import BlogCard from './blog_components/blog_cards/blogCard'
+import BlogFeatured from './blog_components/blog_cards/blogFeatured'
+import { Link } from "react-router-dom";
 // tells react what to expect from ur backend aka this should match ur schema
 /*
 eg

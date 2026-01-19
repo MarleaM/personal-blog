@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-// IMPORTANT: In ESM, we use the .js extension for the local import 
+// IMPORTANT!!!!! in ESM we use the .js extension for the local import 
 // even though the physical file is .ts. 
 // point this to wherever ur 'output' was in schema.prisma
 import { PrismaClient } from '../generated/prisma/client.js'; 
@@ -16,7 +16,7 @@ if (!connectionString) {
 // create the pg connection pool
 const pool = new Pool({ connectionString });
 
-//create the Prisma Driver Adapter
+//create the prisma driver adapter
 const adapter = new PrismaPg(pool);
 
 //instantiate the client with the required adapter argument

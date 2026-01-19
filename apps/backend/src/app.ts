@@ -4,9 +4,11 @@ import Fastify from "fastify";
 import blogRoutes from "./modules/blog/blog.route.js";
 import { validatorCompiler, serializerCompiler } from "fastify-type-provider-zod";
 import cors from '@fastify/cors'
+import cloudinary from "./utils/cloudinary.js";
 //import {createBlogSchema, blogsResponseSchema} from "./modules/blog/blog.schema.js";
 const server = Fastify();
-
+const url = cloudinary.url('swat_ugn2qv');
+console.log(url);
 //set the compilers (this is the global setup)
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
